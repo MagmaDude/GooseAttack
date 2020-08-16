@@ -32,10 +32,6 @@ def createBats(location, startupLocation):
 
     with open(os.path.join(location, 'SystemUpdater.bat'), 'w+') as makeBat:
         makeBat.write(destroyBat)
-    
-    # Creates empty file that is used to check if the bat has ran
-    #with open(os.path.join(location, 'runCheck.txt'), 'w+') as no: 
-    #    pass
 
 def createShortCut(location, startupLocation, fileToShortcut, fileShortcutName):
     targetFile = os.path.join(location, fileToShortcut)
